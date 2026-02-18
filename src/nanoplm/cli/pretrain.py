@@ -20,7 +20,7 @@ from nanoplm.pretraining.pipeline import (
 from nanoplm.pretraining.pure_pipeline import run_pure_pretraining
 from nanoplm.pretraining.models.modern_bert.model import ProtModernBertMLM, ProtModernBertMLMConfig
 from nanoplm.pretraining.models.modern_bert.pure_model import PureProtModernBertMLM
-from nanoplm.utils.common import read_yaml, create_dirs, is_flash_attention_available
+from nanoplm.utils.common import read_yaml, create_dirs
 from nanoplm.utils.logger import logger
 
 def _check_muon_available(optimizer: str) -> None:
@@ -461,7 +461,6 @@ def run(
     model_parameters = filter(lambda p: p.requires_grad, model.parameters())
     total_params = sum(p.numel() for p in model_parameters)
     logger.info(f"Total Trainable Parameters: {total_params}")
-    logger.info(f"Flash attention available: {is_flash_attention_available()}")
 
     if pure_torch:
         run_pure_pretraining(model=model, pretrain_config=cfg)
@@ -533,7 +532,6 @@ def from_yaml(config: str, pure_torch: bool):
     model_parameters = filter(lambda p: p.requires_grad, model.parameters())
     total_params = sum(p.numel() for p in model_parameters)
     logger.info(f"Total Trainable Parameters: {total_params}")
-    logger.info(f"Flash attention available: {is_flash_attention_available()}")
 
     if pure_torch:
         run_pure_pretraining(
