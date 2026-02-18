@@ -12,6 +12,7 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass, field
 from typing import Optional
+from nanoplm.utils.logger import logger
 
 import torch
 import torch.nn as nn
@@ -26,13 +27,16 @@ try:
     from flash_attn_interface import flash_attn_varlen_func as _flash_varlen_fn
     _HAS_FLASH_VARLEN = True
     _FLASH_HAS_DROPOUT = False  # FA3 removed dropout_p
+    logger.info("FA3 is available")
 except ImportError:
     try:
         # FA2 (Ampere+, RTX 30xx/40xx/50xx)
         from flash_attn import flash_attn_varlen_func as _flash_varlen_fn
         _HAS_FLASH_VARLEN = True
         _FLASH_HAS_DROPOUT = True  # FA2 supports dropout_p
+        logger.info("FA2 is available")
     except ImportError:
+        logger.info("FA2 and FA3 are not available")
         pass
 
 
@@ -662,6 +666,7 @@ class ModernBertForMaskedLM(nn.Module):
                 loss = None
 
             return {"loss": loss, "logits": logits}
+
 
         use_varlen = (
             _HAS_FLASH_VARLEN
