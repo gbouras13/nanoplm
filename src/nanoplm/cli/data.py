@@ -21,7 +21,7 @@ from nanoplm.pretraining.dataset import ShardWriter
 from nanoplm.pretraining.models.modern_bert.tokenizer import ProtModernBertTokenizer
 
 from nanoplm.utils import create_dirs
-from nanoplm.utils.common import inside_git_repo, is_git_subdir, read_yaml, is_flash_attention_available
+from nanoplm.utils.common import inside_git_repo, is_git_subdir, read_yaml
 
 
 @click.group(name="data")
