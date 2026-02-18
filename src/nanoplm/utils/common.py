@@ -12,7 +12,6 @@ from nanoplm.utils.logger import logger
 
 import torch
 
-
 def read_yaml(file_path: str) -> Dict[str, Any]:
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"File not found: {file_path}")
